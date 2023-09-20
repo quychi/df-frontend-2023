@@ -8,7 +8,71 @@
   </head>
 
   <body>
-    Hello world
+    <header class="header">
+      <nav class="header__nav">
+        Bookstore
+      </nav>
+      <div class="header__user-info">
+        <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" alt="avatar" class="header__user-info__avatar">
+        <p class="header__user-info__name">John Doe</p>
+      </div>
+    </header>
+    
+    <main class="main">
+      <section class="main__search">
+        <input type="text" id="search-input" placeholder="Search books">
+        <button class="button button-primary" type="button" onclick="handleOpenModal('createBookModal')">Add book</button>
+      </section>
+      <section class="main__table">
+        <div id="book-table"></div>
+      </section>
+    </main>
+
+    <div id="createBookModal" class="modal">
+      <div class="modal__content">
+        <div class="modal__content__header">
+          <h2>Add book</h2>
+          <button type="button" class="modal__content__header__close-btn" onclick="handleCLoseModal('createBookModal')">&times;</button>
+        </div>
+        <div class="modal__content__body">
+          <p>Name</p>
+          <input type="text" id="name">
+          <p>Author</p>
+          <input type="text" id="author">
+          <label class="topicsLabel" for="topics">Topic</label>
+          <select name="topics" id="topic">
+            <option value="volvo">Programming</option>
+            <option value="audi">Database</option>
+            <option value="mercedes">DevOps</option>
+          </select>
+        </div>
+        <div class="modal__content__footer">
+          <button class="button button-primary" type="button" onclick="createBook()">Create</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="deleteBookModal" class="modal">
+      <div class="modal__content">
+        <div class="modal__content__header">
+          <h2>Delete book</h2>
+          <button type="button" class="modal__content__header__close-btn" onclick="handleCLoseModal('deleteBookModal')">&times;</button>
+        </div>
+        <div class="modal__content__body confirm-delete-text">
+          <p>Do you want to delete </p> 
+          <span><strong id="selectedBookName"></strong> book?</span>
+        </div>
+        <div class="modal__content__footer">
+          <button class="button button-secondary" type="button" onclick="onDelete()">Delete</button>
+          <button class="button button-primary" type="button" onclick="handleCLoseModal('deleteBookModal')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <a href="https://github.com/quychi" target="_blank" rel="noopener noreferrer">Github link</a>
+    </footer>
+
     <script src="script.js"></script>
   </body>
 </html>
