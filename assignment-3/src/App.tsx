@@ -1,25 +1,30 @@
-import logo from './logo.svg'
-import './App.css'
+import './App.css';
+import { useMemo, useState } from 'react';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
+import { MainContent } from './components/MainContent';
+import { BooksContext, BookStoreContext } from './stores/bookStore';
+import { BookStorage } from './types/bookStorage';
 
 function App() {
+  const [bookStore, setBookStore] = useState<BookStorage>({
+    booksData: [],
+    currentPage: 1
+  });
+
+  const bookStoreContextValue = useMemo<BooksContext>(() => ({ 
+    bookStore, 
+    setBookStore 
+  }), [bookStore])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <BookStoreContext.Provider value={bookStoreContextValue}>
+        <MainContent />
+      </BookStoreContext.Provider>
+      <Footer />
+    </>
   )
 }
 

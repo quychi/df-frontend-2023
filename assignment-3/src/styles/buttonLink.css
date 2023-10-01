@@ -1,0 +1,9 @@
+.button-link {
+  width: fit-content;
+  height: fit-content;
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  color: #D44C61;
+  cursor: pointer;
+}
