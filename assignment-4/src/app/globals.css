@@ -16,7 +16,13 @@
   }
 }
 
+html {
+  height: 100%;
+  width: 100%;
+}
+
 body {
+  height: 100%;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -25,3 +31,22 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* table {
+  width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+ */
+th,
+td {
+	padding: 5px;
+	border: 1px solid #B9B9B9;
+}
+
+@layer components {
+  .pagination-item{
+    @apply px-0 py-3 h-8 text-center mx-1 my-auto text-black flex box-border items-center rounded-md text-sm min-w-[32px] cursor-pointer hover:opacity-80 border border-solid border-gray-300 flex justify-center items-center my-2;
+  }
+}
+
