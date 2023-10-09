@@ -29,7 +29,10 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@hookform/resolvers/zod": ["./node_modules/@hookform/resolvers/zod/dist/zod.mjs"]
+    }
   },
   "include": [
     "next-env.d.ts",

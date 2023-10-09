@@ -1,8 +1,0 @@
-{
-	"dependencies": {
-		"zod": "^3.22.4"
-	},
-	"devDependencies": {
-		"@hookform/resolvers": "^3.3.1"
-	}
-}
