@@ -1,4 +1,4 @@
-import { Book } from './schema'
+import { Book } from '../_generated/model/book'
 
 export interface BookStorage {
   booksData: Book[]
