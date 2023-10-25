@@ -1,5 +1,5 @@
 import React from 'react'
-import { DOTS } from './hooks/usePagination'
+import { DOTS } from '../../_hooks/usePagination'
 
 interface Props {
   pageNumber: string | number

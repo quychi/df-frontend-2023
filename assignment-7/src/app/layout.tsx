@@ -27,7 +27,7 @@ export default function RootLayout({
           <AuthContextProvider>
             <Header />
             <BookStoreProvider>
-              <main className="h-[calc(100%-50px-80px)] py-5 px-2.5 bg-gray-cultured overflow-y-auto">
+              <main className="h-full py-5 px-2.5 bg-gray-cultured overflow-y-auto">
                 {children}
               </main>
             </BookStoreProvider>

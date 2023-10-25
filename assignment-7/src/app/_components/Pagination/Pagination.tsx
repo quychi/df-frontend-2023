@@ -1,5 +1,5 @@
 import { PageNumber } from './PageNumber'
-import { usePagination } from './hooks/usePagination'
+import { usePagination } from '../../_hooks/usePagination'
 
 interface Props {
   onPageChange: (newCurrentPage: number) => void

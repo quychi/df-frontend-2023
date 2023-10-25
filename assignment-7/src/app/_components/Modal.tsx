@@ -1,4 +1,5 @@
-import { ReactNode } from 'react'
+import { ReactNode, useRef } from 'react'
+import useOutsideClick from '../_hooks/useClickOutside'
 
 interface Props {
   isOpen: boolean
@@ -10,23 +11,25 @@ interface Props {
 export const Modal = (props: Props) => {
   const { isOpen, onClose, title, children } = props
 
+  const modalRef = useRef<HTMLDivElement | null>(null)
+
+  useOutsideClick(modalRef, () => {
+    onClose?.()
+  })
+
   if (!isOpen) {
     return null
   }
 
   return (
-    <div className="absolute top-0 left-0 z-10 w-full h-full overflow-hidden bg-gray-200 flex justify-center items-center">
-      <div className="p-5 rounded-lg border border-solid border-cyan-800 w-[300px]">
-        <div className="flex justify-between items-center h-10">
-          <h2 className="font-bold underline underline-offset-2">{title}</h2>
-          <button
-            type="button"
-            className="text-black-400 bg-transparent border-none text-2xl font-bold cursor-pointer hover:opacity-80"
-            onClick={onClose}
-          >
-            &times;
-          </button>
-        </div>
+    <div className="absolute top-0 left-0 z-10 w-full h-full overflow-hidden bg-white flex justify-center items-center">
+      <div
+        ref={modalRef}
+        className="p-5 rounded-lg border border-solid border-cyan-800 w-[300px]"
+      >
+        <h2 className="text-center font-bold underline underline-offset-2 h-12">
+          {title}
+        </h2>
         <div>{children}</div>
       </div>
     </div>

@@ -2,7 +2,6 @@
 
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { FadeLoader } from 'react-spinners'
 import { PAGE } from '../../../../_consts/page'
 import { ButtonLink } from '../../../../_components/ButtonLink'
 import DeleteBookModal from '../../../../_components/DeleteBookModal/DeleteBookModal'
@@ -11,6 +10,7 @@ import CustomError from '../../../../CustomError'
 import { useGetBook } from '../../../../_generated/book/book'
 import { SWR_KEY } from '../../../../_consts/swrKey'
 import { Book } from '../../../../_generated/model'
+import Loading from '../../../../_components/Loading/Loading'
 
 const BookDetail = () => {
   const { bookId } = useParams()
@@ -46,16 +46,8 @@ const BookDetail = () => {
     }
   }, [data])
 
-  if (!currentBook) {
-    return null
-  }
-
   if (isLoading) {
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <FadeLoader color="#D44C61" />
-      </div>
-    )
+    return <Loading />
   }
 
   if (error) {
@@ -64,23 +56,25 @@ const BookDetail = () => {
 
   return (
     <>
-      <div className="flex flex-col space-y-3 items-start">
-        <ButtonLink btnText="&lt; Back" onClick={goBackToBookList} />
-        <p className="font-bold text-lg">{currentBook?.name ?? ''}</p>
-        <p>
-          <strong>Author: </strong>
-          {currentBook?.author ?? ''}
-        </p>
-        <p>
-          <strong>Topic: </strong>
-          {currentBook?.topic?.name ?? ''}
-        </p>
-        <ButtonLink btnText="Delete" onClick={handleToggleDeleteBookModal} />
-      </div>
+      <section className="flex justify-center items-center w-full h-full">
+        <div className="flex flex-col space-y-3 items-start">
+          <ButtonLink btnText="&lt; Back" onClick={goBackToBookList} />
+          <p className="font-bold text-lg">{currentBook?.name ?? ''}</p>
+          <p>
+            <strong>Author: </strong>
+            {currentBook?.author ?? ''}
+          </p>
+          <p>
+            <strong>Topic: </strong>
+            {currentBook?.topic?.name ?? ''}
+          </p>
+          <ButtonLink btnText="Delete" onClick={handleToggleDeleteBookModal} />
+        </div>
+      </section>
 
       <DeleteBookModal
         isOpen={isDeleteBookModalOpen}
-        deleteBookId={currentBook?.id ?? ''}
+        deleteBookId={currentBook?.id ?? null}
         onYes={handleDeleteBook}
         onNo={handleToggleDeleteBookModal}
       />

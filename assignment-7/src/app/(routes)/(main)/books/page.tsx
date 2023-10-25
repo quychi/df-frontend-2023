@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useSWR, { mutate } from 'swr'
-import { FadeLoader } from 'react-spinners'
 import Pagination from '../../../_components/Pagination/Pagination'
 import { Input } from '../../../_components/Input'
 import { useBookStoreContext } from '../../../_context/bookStore'
@@ -22,6 +21,7 @@ import {
   UpdateBookRequest,
 } from '../../../_generated/model'
 import { SWR_KEY } from '../../../_consts/swrKey'
+import Loading from '../../../_components/Loading/Loading'
 
 interface BookItemProps {
   book: Book
@@ -146,11 +146,7 @@ const BookList = () => {
   }, [bookList])
 
   if (isLoading) {
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <FadeLoader color="#D44C61" />
-      </div>
-    )
+    return <Loading />
   }
 
   if (error) {
