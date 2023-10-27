@@ -13,6 +13,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { TOKEN_KEY, client } from '../_lib/api'
 import * as authClient from '../_generated/auth/auth'
 import { isSSR } from '../_utils/isSSR'
+import { toast } from '../_components/Toast'
+import { ACTION_FAILED, INCORRECT_EMAIL_PASSWORD } from '../_consts/messages'
 
 interface AuthContextValue {
   isLogin: boolean
@@ -45,8 +47,10 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         setIsLogin(true)
       }
     } catch (error) {
-      // Handle error
-      throw new Error('Incorrect email or password')
+      toast.error({
+        title: ACTION_FAILED,
+        message: INCORRECT_EMAIL_PASSWORD,
+      })
     }
   }, [])
 
@@ -61,7 +65,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [isLogin, pathname, replace])
 
-  console.log('from auth context provide - pathname:', pathname)
+  console.log('** from auth contextS provide - pathname:', pathname)
 
   const providerValue = useMemo(
     () => ({ isLogin, login, logout }),

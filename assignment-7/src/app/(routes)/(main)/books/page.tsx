@@ -22,6 +22,17 @@ import {
 } from '../../../_generated/model'
 import { SWR_KEY } from '../../../_consts/swrKey'
 import Loading from '../../../_components/Loading/Loading'
+import { toast } from '../../../_components/Toast'
+import {
+  ACTION_FAILED,
+  ACTION_SUCCESS,
+  ADD_BOOK_FAILED,
+  ADD_BOOK_SUCCESS,
+  DELETE_BOOK_FAILED,
+  DELETE_BOOK_SUCCESS,
+  EDIT_BOOK_FAILED,
+  EDIT_BOOK_SUCCESS,
+} from '../../../_consts/messages'
 
 interface BookItemProps {
   book: Book
@@ -65,6 +76,7 @@ const BookItem = ({
 const BookList = () => {
   const { bookStore, setBookStore } = useBookStoreContext()
   const [booksData, setBooksData] = useState<Book[]>([])
+  const [isMutateBook, setIsMutateBook] = useState(false)
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState<boolean>(false)
   const [isEditBookModalOpen, setIsEditBookModalOpen] = useState<boolean>(false)
   const [isDeleteBookModalOpen, setIsDeleteBookModalOpen] =
@@ -86,28 +98,70 @@ const BookList = () => {
   const handleEditBook = async (newBook: UpdateBookRequest) => {
     const selectedBookId = selectedBook.current?.id
     if (selectedBookId) {
-      await bookClient.updateBook(selectedBookId, newBook)
-      mutate(SWR_KEY.BOOK.GET_BOOKS)
-      handleToggleEditBookModal()
+      try {
+        setIsMutateBook(true)
+        await bookClient.updateBook(selectedBookId, newBook)
+        mutate(SWR_KEY.BOOK.GET_BOOKS)
+        toast.success({
+          title: ACTION_SUCCESS,
+          message: EDIT_BOOK_SUCCESS,
+        })
+      } catch (error) {
+        toast.error({
+          title: ACTION_FAILED,
+          message: EDIT_BOOK_FAILED,
+        })
+      } finally {
+        handleToggleEditBookModal()
+        setIsMutateBook(false)
+      }
     }
   }
 
   const handleAddBook = async (newBook: CreateBookRequest) => {
-    const searchInputEle = document.getElementById('search-input')
-    await bookClient.createBook(newBook)
-    mutate(SWR_KEY.BOOK.GET_BOOKS)
-    currentSearch.current = ''
-    // TODO: a ơi, có vẻ như do e "as" nên eslint + prettier thêm dấu ";" đằng trước, chỗ này e nên xử lý ntn ạ?
-    ;(searchInputEle as HTMLInputElement).value = ''
-    handleToggleAddBookModal()
+    try {
+      setIsMutateBook(true)
+      const searchInputEle = document.getElementById('search-input')
+      await bookClient.createBook(newBook)
+      mutate(SWR_KEY.BOOK.GET_BOOKS)
+      currentSearch.current = ''
+      // TODO: a ơi, có vẻ như do e "as" nên eslint + prettier thêm dấu ";" đằng trước, chỗ này e nên xử lý ntn ạ?
+      ;(searchInputEle as HTMLInputElement).value = ''
+      toast.success({
+        title: ACTION_SUCCESS,
+        message: ADD_BOOK_SUCCESS,
+      })
+    } catch (error) {
+      toast.error({
+        title: ACTION_FAILED,
+        message: ADD_BOOK_FAILED,
+      })
+    } finally {
+      handleToggleAddBookModal()
+      setIsMutateBook(false)
+    }
   }
 
   const handleDeleteBook = async (deleteBookId: number | null) => {
     if (deleteBookId) {
-      await bookClient.deleteBook(deleteBookId)
-      mutate(SWR_KEY.BOOK.GET_BOOKS)
+      try {
+        setIsMutateBook(true)
+        await bookClient.deleteBook(deleteBookId)
+        mutate(SWR_KEY.BOOK.GET_BOOKS)
+        toast.success({
+          title: ACTION_SUCCESS,
+          message: DELETE_BOOK_SUCCESS,
+        })
+      } catch (error) {
+        toast.error({
+          title: ACTION_FAILED,
+          message: DELETE_BOOK_FAILED,
+        })
+      } finally {
+        handleToggleDeleteBookModal()
+        setIsMutateBook(false)
+      }
     }
-    handleToggleDeleteBookModal()
   }
 
   const handleSearch = (event: { target: { value: string } }) => {
@@ -168,6 +222,7 @@ const BookList = () => {
           type="button"
           onClick={handleToggleAddBookModal}
           btnText="Add book"
+          isLoading={isMutateBook}
         />
       </section>
       <section className="w-full">

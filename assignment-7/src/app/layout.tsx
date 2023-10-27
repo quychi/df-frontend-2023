@@ -5,6 +5,7 @@ import { Header } from './_components/Header'
 import { Footer } from './_components/Footer'
 import { BookStoreProvider } from './_context/bookStore'
 import { AuthContextProvider } from './_context/auth'
+import { Toaster } from './_components/Toast'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,6 +34,7 @@ export default function RootLayout({
             </BookStoreProvider>
             <Footer />
           </AuthContextProvider>
+          <Toaster />
         </main>
       </body>
     </html>
